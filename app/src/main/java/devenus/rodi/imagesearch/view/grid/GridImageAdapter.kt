@@ -2,31 +2,31 @@ package devenus.rodi.imagesearch.view.grid
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import devenus.rodi.imagesearch.databinding.ItemGirdImageBinding
 import devenus.rodi.imagesearch.network.response.ImageInfo
+import devenus.rodi.imagesearch.utils.loadUrlImage
 
-class GridImageAdapter : ListAdapter<ImageInfo, RecyclerView.ViewHolder>(itemDiff) {
+class GridImageAdapter : PagingDataAdapter<ImageInfo, GridImageViewHolder>(itemDiff) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        val binding = ItemGirdImageBinding.inflate(
-            LayoutInflater.from(parent.context),
-            parent,
-            false
-        )
-        return ItemViewHolder(binding)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GridImageViewHolder {
+        val binding =
+            ItemGirdImageBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return GridImageViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        TODO("Not yet implemented")
+    override fun onBindViewHolder(holder: GridImageViewHolder, position: Int) {
+        holder.bind(getItem(position))
     }
 }
 
-class ItemViewHolder(private val binding: ItemGirdImageBinding) :
-    RecyclerView.ViewHolder(binding.root) {
+class GridImageViewHolder(val view: ItemGirdImageBinding) : RecyclerView.ViewHolder(view.root) {
 
+    fun bind(item: ImageInfo?) {
+        view.ivGirdImage.loadUrlImage(item?.thumbNailUrl)
+    }
 }
 
 val itemDiff = object : DiffUtil.ItemCallback<ImageInfo>() {

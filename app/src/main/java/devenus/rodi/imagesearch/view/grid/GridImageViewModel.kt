@@ -4,15 +4,15 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingData
 import devenus.rodi.imagesearch.base.BaseViewModel
 import devenus.rodi.imagesearch.data.SearchImageRepository
+import devenus.rodi.imagesearch.network.response.ImageInfo
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 class GridImageViewModel @ViewModelInject constructor(
     private val searchImageRepository: SearchImageRepository
@@ -20,6 +20,9 @@ class GridImageViewModel @ViewModelInject constructor(
 
     private val _noResult = MutableLiveData<Boolean>(true)
     val noResult: LiveData<Boolean> = _noResult
+
+    private val _imgUrlList = MutableLiveData<PagingData<ImageInfo>>()
+    val imgUrlList: LiveData<PagingData<ImageInfo>> = _imgUrlList
 
     val keyWord = MutableLiveData<String>()
     var debounceJob: Job? = null
@@ -37,15 +40,9 @@ class GridImageViewModel @ViewModelInject constructor(
                         delay(1000)
                         _loading.value = true
                     }
-                    .catch { throwable ->
-                        Timber.e(throwable)
-                    }
-                    .collect { imageInfoList ->
-                        if (imageInfoList.isEmpty()) {
-                            _noResult.value = true
-                        }else {
-                            _noResult.value = false
-                        }
+                    .collectLatest { pagingData ->
+                        _noResult.value = false
+                        _imgUrlList.value = pagingData
                         _loading.value = false
                     }
             }
