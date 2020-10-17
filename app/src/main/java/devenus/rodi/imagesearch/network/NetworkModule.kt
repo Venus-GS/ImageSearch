@@ -17,7 +17,6 @@ class NetworkModule {
     private companion object {
         private const val TIMEOUT: Long = 15
         private const val IMAGE_SEARCH_URL = "https://dapi.kakao.com"
-        private const val KAKAO_REST_API_KEY = "a4eebfa0b2517064804d7f43dc2d747c"
     }
 
     @Provides

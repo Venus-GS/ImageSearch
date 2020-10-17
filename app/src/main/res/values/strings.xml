@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">ImageSearch</string>
     <string name="keyWordHint">Input KeyWord</string>
+    <string name="no_result">No Result</string>
 </resources>
