@@ -23,5 +23,9 @@ class GridImageFragment : BaseFragment<FragmentGridImageBinding>(R.layout.fragme
             rvImageList.adapter = adapter
         }
 
+        viewModel.keyWord.observe(viewLifecycleOwner) {
+            viewModel.searchImage()
+        }
+
     }
 }
