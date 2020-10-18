@@ -7,4 +7,5 @@ object KEY {
 object PAGING {
     const val INIT_PAGE = 1
     const val PAGE_SIZE = 30
+    const val NO_SEARCH_RESULT = "NO_SEARCH_RESULT"
 }

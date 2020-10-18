@@ -20,6 +20,7 @@ class GridImageFragment : BaseFragment<FragmentGridImageBinding>(R.layout.fragme
 
         binding.apply {
             viewModel = this@GridImageFragment.viewModel
+            adapter.setListener { this@GridImageFragment.viewModel.setNoResult() }
             rvImageList.adapter = adapter
         }
 

@@ -7,9 +7,12 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import devenus.rodi.imagesearch.databinding.ItemGirdImageBinding
 import devenus.rodi.imagesearch.network.response.ImageInfo
+import devenus.rodi.imagesearch.utils.PAGING.NO_SEARCH_RESULT
 import devenus.rodi.imagesearch.utils.loadUrlImage
 
 class GridImageAdapter : PagingDataAdapter<ImageInfo, GridImageViewHolder>(itemDiff) {
+
+    private var noResultListener: (() -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GridImageViewHolder {
         val binding =
@@ -18,7 +21,15 @@ class GridImageAdapter : PagingDataAdapter<ImageInfo, GridImageViewHolder>(itemD
     }
 
     override fun onBindViewHolder(holder: GridImageViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        if (getItem(0)?.thumbNailUrl == NO_SEARCH_RESULT) {
+            noResultListener?.invoke()
+        } else {
+            holder.bind(getItem(position))
+        }
+    }
+
+    fun setListener(listener: () -> Unit) {
+        this.noResultListener = listener
     }
 }
 

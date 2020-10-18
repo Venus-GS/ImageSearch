@@ -4,6 +4,7 @@ import androidx.paging.PagingSource
 import devenus.rodi.imagesearch.network.response.ImageInfo
 import devenus.rodi.imagesearch.network.service.SearchImageService
 import devenus.rodi.imagesearch.utils.PAGING.INIT_PAGE
+import devenus.rodi.imagesearch.utils.PAGING.NO_SEARCH_RESULT
 import retrofit2.HttpException
 
 class SearchImagePagingSource(
@@ -19,12 +20,15 @@ class SearchImagePagingSource(
                 page = currentPage
             )
 
-            LoadResult.Page(
-                data = resultData.imageInfo,
-                prevKey = if (currentPage == 1) null else currentPage - 1,
-                nextKey = if (resultData.imageInfo.isEmpty()) null else currentPage + 1
-            )
+            if (resultData.metaData.totalCount == 0){
+                resultData.imageInfoList.add(ImageInfo(NO_SEARCH_RESULT))
+            }
 
+            LoadResult.Page(
+                data = resultData.imageInfoList,
+                prevKey = if (currentPage == 1) null else currentPage - 1,
+                nextKey = if (resultData.metaData.isEnd) null else currentPage + 1
+            )
         } catch (error: Exception) {
             return LoadResult.Error(error)
         } catch (error: HttpException) {

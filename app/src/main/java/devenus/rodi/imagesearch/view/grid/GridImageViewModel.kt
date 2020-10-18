@@ -28,8 +28,8 @@ class GridImageViewModel @ViewModelInject constructor(
     var debounceJob: Job? = null
 
     fun searchImage() {
-
         debounceJob?.cancel()
+        _imgUrlList.value = PagingData.empty()
 
         if (keyWord.value.isNullOrBlank()) {
             _noResult.value = true
@@ -38,14 +38,16 @@ class GridImageViewModel @ViewModelInject constructor(
                 searchImageRepository.getImageInfo(keyWord.value!!)
                     .onStart {
                         delay(1000)
-                        _loading.value = true
                     }
                     .collectLatest { pagingData ->
                         _noResult.value = false
                         _imgUrlList.value = pagingData
-                        _loading.value = false
                     }
             }
         }
+    }
+
+    fun setNoResult() {
+        _noResult.value = true
     }
 }
