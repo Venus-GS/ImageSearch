@@ -21,7 +21,7 @@ class SearchImagePagingSource(
             )
 
             if (resultData.metaData.totalCount == 0){
-                resultData.imageInfoList.add(ImageInfo(NO_SEARCH_RESULT))
+                resultData.imageInfoList.add(ImageInfo(thumbNailUrl = NO_SEARCH_RESULT))
             }
 
             LoadResult.Page(

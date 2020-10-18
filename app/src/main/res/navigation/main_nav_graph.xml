@@ -8,6 +8,32 @@
     <fragment
         android:id="@+id/gridImage"
         android:name="devenus.rodi.imagesearch.view.grid.GridImageFragment"
-        tools:layout="@layout/fragment_grid_image" />
+        tools:layout="@layout/fragment_grid_image">
+
+        <action
+            android:id="@+id/action_to_imageDetail"
+            app:destination="@id/imageDetail" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/imageDetail"
+        android:name="devenus.rodi.imagesearch.view.detail.ImageDetailFragment"
+        tools:layout="@layout/fragment_image_detail">
+
+        <argument
+            android:name="imageUrl"
+            android:defaultValue=""
+            app:argType="string" />
+
+        <argument
+            android:name="displaySiteName"
+            android:defaultValue=""
+            app:argType="string" />
+
+        <argument
+            android:name="dateTime"
+            android:defaultValue=""
+            app:argType="string" />
+    </fragment>
 
 </navigation>

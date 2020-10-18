@@ -9,10 +9,13 @@ import devenus.rodi.imagesearch.databinding.ItemGirdImageBinding
 import devenus.rodi.imagesearch.network.response.ImageInfo
 import devenus.rodi.imagesearch.utils.PAGING.NO_SEARCH_RESULT
 import devenus.rodi.imagesearch.utils.loadUrlImage
+import java.text.SimpleDateFormat
+import java.util.*
 
 class GridImageAdapter : PagingDataAdapter<ImageInfo, GridImageViewHolder>(itemDiff) {
 
-    private var noResultListener: (() -> Unit)? = null
+    private lateinit var noResultListener: (() -> Unit)
+    private lateinit var imageClickListener: ImageClickListener
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GridImageViewHolder {
         val binding =
@@ -22,21 +25,40 @@ class GridImageAdapter : PagingDataAdapter<ImageInfo, GridImageViewHolder>(itemD
 
     override fun onBindViewHolder(holder: GridImageViewHolder, position: Int) {
         if (getItem(0)?.thumbNailUrl == NO_SEARCH_RESULT) {
-            noResultListener?.invoke()
+            noResultListener.invoke()
         } else {
-            holder.bind(getItem(position))
+            holder.bind(getItem(position), imageClickListener)
         }
     }
 
-    fun setListener(listener: () -> Unit) {
+    fun setNoResultListener(listener: () -> Unit) {
         this.noResultListener = listener
+    }
+
+    fun setImageClickListener(listener: ImageClickListener) {
+        this.imageClickListener = listener
+    }
+
+    interface ImageClickListener {
+        fun onClick(imageUrl: String, displaySiteName: String, dateTime: String)
     }
 }
 
 class GridImageViewHolder(val view: ItemGirdImageBinding) : RecyclerView.ViewHolder(view.root) {
 
-    fun bind(item: ImageInfo?) {
-        view.ivGirdImage.loadUrlImage(item?.thumbNailUrl)
+    fun bind(item: ImageInfo?, imageClickListener: GridImageAdapter.ImageClickListener) {
+        val dateTime = item?.dateTime?.let {
+            SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault()).format(it)
+        } ?: run {
+            ""
+        }
+
+        view.ivGirdImage.apply {
+            loadUrlImage(this, item?.thumbNailUrl)
+            setOnClickListener {
+                imageClickListener.onClick(item?.imageUrl!!, item.displaySiteName, dateTime)
+            }
+        }
     }
 }
 

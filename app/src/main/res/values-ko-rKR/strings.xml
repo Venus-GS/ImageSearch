@@ -3,4 +3,6 @@
     <string name="app_name">ImageSearch</string>
     <string name="keyWordHint">검색어를 입력해 주세요</string>
     <string name="no_result">검색 결과가 없습니다.</string>
+    <string name="display_site_name">출처 : %s</string>
+    <string name="writing_time">작성시간 : %s</string>
 </resources>

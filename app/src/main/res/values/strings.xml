@@ -2,4 +2,6 @@
     <string name="app_name">ImageSearch</string>
     <string name="keyWordHint">Input KeyWord</string>
     <string name="no_result">No Result</string>
+    <string name="display_site_name">Display Site : %s</string>
+    <string name="writing_time">Writing Time : %s</string>
 </resources>

@@ -8,6 +8,8 @@ import androidx.paging.PagingData
 import devenus.rodi.imagesearch.base.BaseViewModel
 import devenus.rodi.imagesearch.data.SearchImageRepository
 import devenus.rodi.imagesearch.network.response.ImageInfo
+import devenus.rodi.imagesearch.utils.EventLiveData
+import devenus.rodi.imagesearch.utils.MutableEventLiveData
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
@@ -24,6 +26,9 @@ class GridImageViewModel @ViewModelInject constructor(
     private val _imgUrlList = MutableLiveData<PagingData<ImageInfo>>()
     val imgUrlList: LiveData<PagingData<ImageInfo>> = _imgUrlList
 
+    private val _hideKeyBoard = MutableEventLiveData<Unit>()
+    val hideKeyBoard: EventLiveData<Unit> = _hideKeyBoard
+
     val keyWord = MutableLiveData<String>()
     var debounceJob: Job? = null
 
@@ -38,10 +43,13 @@ class GridImageViewModel @ViewModelInject constructor(
                 searchImageRepository.getImageInfo(keyWord.value!!)
                     .onStart {
                         delay(1000)
+                        _loading.value = true
                     }
                     .collectLatest { pagingData ->
                         _noResult.value = false
                         _imgUrlList.value = pagingData
+                        _hideKeyBoard.event = Unit
+                        _loading.value = false
                     }
             }
         }
