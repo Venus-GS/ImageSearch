@@ -7,6 +7,8 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import devenus.rodi.imagesearch.databinding.ItemGirdImageBinding
 import devenus.rodi.imagesearch.network.response.ImageInfo
+import devenus.rodi.imagesearch.utils.PAGING.GRID_SPAN_SIZE
+import devenus.rodi.imagesearch.utils.PAGING.LOAD_SPAN_SIZE
 import devenus.rodi.imagesearch.utils.PAGING.NO_SEARCH_RESULT
 import devenus.rodi.imagesearch.utils.loadUrlImage
 import java.text.SimpleDateFormat
@@ -28,6 +30,14 @@ class GridImageAdapter : PagingDataAdapter<ImageInfo, GridImageViewHolder>(itemD
             noResultListener.invoke()
         } else {
             holder.bind(getItem(position), imageClickListener)
+        }
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return if (position == itemCount) {
+            GRID_SPAN_SIZE
+        } else {
+            LOAD_SPAN_SIZE
         }
     }
 

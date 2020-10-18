@@ -4,10 +4,12 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import devenus.rodi.imagesearch.R
 import devenus.rodi.imagesearch.base.BaseFragment
 import devenus.rodi.imagesearch.databinding.FragmentGridImageBinding
+import devenus.rodi.imagesearch.utils.PAGING.GRID_SPAN_SIZE
 import devenus.rodi.imagesearch.utils.hideKeyBoard
 import devenus.rodi.imagesearch.utils.options
 
@@ -38,8 +40,18 @@ class GridImageFragment : BaseFragment<FragmentGridImageBinding>(R.layout.fragme
 
         binding.apply {
             viewModel = this@GridImageFragment.viewModel
-            rvImageList.adapter = adapter
+            rvImageList.adapter =
+                adapter.withLoadStateFooter(GridImageLoadStateAdapter { adapter.retry() })
             rvImageList.setHasFixedSize(true)
+            rvImageList.layoutManager =
+                GridLayoutManager(requireContext(), GRID_SPAN_SIZE).apply {
+                    spanSizeLookup =
+                        object : GridLayoutManager.SpanSizeLookup() {
+                            override fun getSpanSize(position: Int): Int {
+                                return adapter.getItemViewType(position)
+                            }
+                        }
+                }
         }
 
         viewModel.keyWord.observe(viewLifecycleOwner) {

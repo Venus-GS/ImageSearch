@@ -18,7 +18,8 @@ class SearchImagePagingSource(
             val currentPage = params.key ?: INIT_PAGE
             val resultData = searchImageService.getImageInfo(
                 keyWord = keyWord,
-                page = currentPage
+                page = currentPage,
+                size = params.loadSize
             )
 
             if (resultData.metaData.totalCount == 0) {

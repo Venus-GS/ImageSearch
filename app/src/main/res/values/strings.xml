@@ -4,4 +4,6 @@
     <string name="no_result">No Result</string>
     <string name="display_site_name">Display Site : %s</string>
     <string name="writing_time">Writing Time : %s</string>
+    <string name="network_error">Network Error</string>
+    <string name="retry">Retry</string>
 </resources>

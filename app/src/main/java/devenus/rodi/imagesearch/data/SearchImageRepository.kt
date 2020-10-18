@@ -12,7 +12,10 @@ class SearchImageRepositoryImpl(private val searchImageService: SearchImageServi
     SearchImageRepository {
     override fun getImageInfo(keyWord: String): Flow<PagingData<ImageInfo>> {
         return Pager(
-            config = PagingConfig(pageSize = PAGE_SIZE)
+            config = PagingConfig(
+                initialLoadSize = PAGE_SIZE / 2,
+                pageSize = PAGE_SIZE
+            )
         ) {
             SearchImagePagingSource(searchImageService, keyWord)
         }.flow
