@@ -6,6 +6,7 @@ import devenus.rodi.imagesearch.network.service.SearchImageService
 import devenus.rodi.imagesearch.utils.PAGING.INIT_PAGE
 import devenus.rodi.imagesearch.utils.PAGING.NO_SEARCH_RESULT
 import retrofit2.HttpException
+import timber.log.Timber
 
 class SearchImagePagingSource(
     private val searchImageService: SearchImageService,
@@ -30,8 +31,10 @@ class SearchImagePagingSource(
                 nextKey = if (resultData.metaData.isEnd) null else currentPage + 1
             )
         } catch (error: Exception) {
+            Timber.e(error)
             return LoadResult.Error(error)
         } catch (error: HttpException) {
+            Timber.e(error)
             return LoadResult.Error(error)
         }
     }
