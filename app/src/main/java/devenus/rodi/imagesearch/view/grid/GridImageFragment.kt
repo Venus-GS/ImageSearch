@@ -39,6 +39,7 @@ class GridImageFragment : BaseFragment<FragmentGridImageBinding>(R.layout.fragme
         binding.apply {
             viewModel = this@GridImageFragment.viewModel
             rvImageList.adapter = adapter
+            rvImageList.setHasFixedSize(true)
         }
 
         viewModel.keyWord.observe(viewLifecycleOwner) {
