@@ -20,7 +20,7 @@ class SearchImagePagingSource(
                 page = currentPage
             )
 
-            if (resultData.metaData.totalCount == 0){
+            if (resultData.metaData.totalCount == 0) {
                 resultData.imageInfoList.add(ImageInfo(thumbNailUrl = NO_SEARCH_RESULT))
             }
 

@@ -10,7 +10,7 @@ class ImageSearchApplication : Application() {
     companion object {
         private var instance: ImageSearchApplication? = null
 
-        fun getInstance() : ImageSearchApplication {
+        fun getInstance(): ImageSearchApplication {
             return if (instance == null) ImageSearchApplication() else instance!!
         }
     }

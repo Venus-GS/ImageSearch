@@ -10,7 +10,7 @@ import devenus.rodi.imagesearch.network.response.ImageInfo
 import devenus.rodi.imagesearch.utils.PAGING.NO_SEARCH_RESULT
 import devenus.rodi.imagesearch.utils.loadUrlImage
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Locale
 
 class GridImageAdapter : PagingDataAdapter<ImageInfo, GridImageViewHolder>(itemDiff) {
 

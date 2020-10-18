@@ -1,9 +1,9 @@
 package devenus.rodi.imagesearch.network.response
 
 import com.google.gson.annotations.SerializedName
-import java.util.*
+import java.util.Date
 
-data class SearchImageResponse (
+data class SearchImageResponse(
     @SerializedName("meta")
     val metaData: MetaData,
     @SerializedName("documents")
@@ -27,4 +27,3 @@ data class ImageInfo(
     @SerializedName("datetime")
     val dateTime: Date? = null
 )
-

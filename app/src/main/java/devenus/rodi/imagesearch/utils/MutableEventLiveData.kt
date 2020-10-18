@@ -14,10 +14,4 @@ class MutableEventLiveData<T> : MutableLiveData<Event<T>>() {
                 setValue(Event(value))
             }
         }
-
-    fun postEvent(value: T?) {
-        if (value != null) {
-            postValue(Event(value))
-        }
-    }
 }
